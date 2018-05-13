@@ -2,7 +2,7 @@
 
 namespace Dash8x\Tests;
 
-class TestCase extends \PHPUnit_Framework_TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
 
 }

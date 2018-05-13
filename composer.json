@@ -1,31 +1,23 @@
 {
     "name": "dash8x/dhiraagu-sms",
     "description": "PHP SDK for Dhiraagu Bulk SMS Gateway",
-    "keywords": [
-        "sms",
-        "maldives",
-        "dhivehi",
-        "dhisms",
-        "texting",
-        "messaging",
-        "dhiraagu"
-    ],
+    "keywords": ["sms", "maldives", "dhivehi", "dhisms", "texting", "messaging", "dhiraagu"],
     "homepage": "https://github.com/dash8x/dhiraagu-sms",
     "license": "MIT",
     "authors": [
         {
             "name": "Arushad Ahmed",
             "email": "arushad@javaabu.com",
-            "homepage": "https://arushad.org",
+            "homepage": "http://arushad.org",
             "role": "Developer"
         }
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=7.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "6.2.*"
+        "phpunit/phpunit": "^6.0"
     },
     "autoload": {
         "psr-4": {
