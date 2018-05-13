@@ -7,6 +7,11 @@ use Exception;
 
 class DhiraaguSms
 {
+    /**
+     * Default API url
+     * @var string
+     */
+    const DEFAULT_API_URL = 'https://bulkmessage.dhiraagu.com.mv/partners/xmlMessage.jsp';
 
     /**
      * The bulk sms username
@@ -44,7 +49,7 @@ class DhiraaguSms
     {
         $this->username = $username;
         $this->password = $password;
-        $this->url = $url ?: 'http://bulkmessage.com.mv/partners/xmlMessage.jsp';
+        $this->url = $url ?: self::DEFAULT_API_URL;
     }
 
     /**
@@ -190,7 +195,7 @@ class DhiraaguSms
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
         $resp = curl_exec($curl);
-        if (FALSE === $resp) {
+        if (false === $resp) {
             throw new Exception(curl_error($curl) . ' ' . curl_errno($curl), curl_errno($curl));
         }
 
