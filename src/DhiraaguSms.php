@@ -111,8 +111,15 @@ class DhiraaguSms
 
         $response = $this->sendRequest($xml);
 
+        // disable warnings
+        libxml_use_internal_errors(true);
+
         $xmlresp = simplexml_load_string($response);
         $arr = json_decode(json_encode($xmlresp), 1);
+
+        // re-enable warnings
+        libxml_clear_errors();
+        libxml_use_internal_errors(false);
 
         $msg_id = $arr['TELEMESSAGE_CONTENT']['RESPONSE']['MESSAGE_ID'];
         $msg_key = $arr['TELEMESSAGE_CONTENT']['RESPONSE']['MESSAGE_KEY'];
