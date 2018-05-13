@@ -2,6 +2,7 @@
 
 namespace Dash8x\DhiraaguSms;
 
+use Dash8x\DhiraaguSms\Execption\DhiraaguSmsException;
 use Exception;
 
 class DhiraaguSms

@@ -1,5 +1,5 @@
 # Dhiraagu SMS
-PHP SDK for [Dhiraagu](https://dhiraagu.com.mv) Bulk SMS Gateway
+PHP SDK for [Dhiraagu Bulk SMS Gateway](https://bulkmessage.dhiraagu.com.mv)
 
 ## Credits
 
