@@ -1,6 +1,6 @@
 <?php
 
-namespace Dash8x\DhiraaguSms\Execption;
+namespace Dash8x\DhiraaguSms\Exception;
 
 class DhiraaguSmsException extends \Exception
 {
