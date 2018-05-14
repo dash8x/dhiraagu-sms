@@ -2,6 +2,7 @@
 
 namespace Dash8x\DhiraaguSms;
 
+use Dash8x\DhiraaguSms\Exception\DhiraaguDeliveryException;
 use Dash8x\DhiraaguSms\Exception\DhiraaguSmsException;
 use Exception;
 
@@ -115,7 +116,7 @@ class DhiraaguSms
         libxml_use_internal_errors(true);
 
         $xmlresp = simplexml_load_string($response);
-        $arr = json_decode(json_encode($xmlresp), 1);
+        $arr = json_decode(json_encode($xmlresp), true);
 
         // re-enable warnings
         libxml_clear_errors();
@@ -149,6 +150,7 @@ class DhiraaguSms
      * @param string $msg_id
      * @param string $msg_key
      * @return array
+     * @throws DhiraaguDeliveryException
      */
     public function delivery($msg_id, $msg_key)
     {
@@ -161,9 +163,22 @@ class DhiraaguSms
 
         $response = $this->sendRequest($xml);
 
-        $xmlresp = simplexml_load_string($response);
+        // disable warnings
+        libxml_use_internal_errors(true);
 
-        $arr = json_decode(json_encode($xmlresp), 1);
+        $xmlresp = simplexml_load_string($response);
+        $arr = json_decode(json_encode($xmlresp), true);
+
+        // re-enable warnings
+        libxml_clear_errors();
+        libxml_use_internal_errors(false);
+
+        $resp_status = $arr['TELEMESSAGE_CONTENT']['RESPONSE']['RESPONSE_STATUS'];
+        $resp_status_des = $arr['TELEMESSAGE_CONTENT']['RESPONSE']['RESPONSE_STATUS_DESC'];
+
+        if ($resp_status != '100') {
+            throw DhiraaguDeliveryException::messageFailed($resp_status, $resp_status_des);
+        }
 
         $status_id = $arr['TELEMESSAGE_CONTENT']['MESSAGE_STATUS']['STATUS_ID'];
         $status = $arr['TELEMESSAGE_CONTENT']['MESSAGE_STATUS']['RECIPIENT_STATUS']['DEVICE']['STATUS'];
