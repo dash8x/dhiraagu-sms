@@ -86,7 +86,7 @@ class DhiraaguSms
      *
      * @param string|array $mobiles
      * @param string $message
-     * @return array
+     * @return DhiraaguSmsMessage
      * @throws DhiraaguSmsException
      */
     public function send($mobiles, $message)
@@ -122,26 +122,13 @@ class DhiraaguSms
         libxml_clear_errors();
         libxml_use_internal_errors(false);
 
-        $msg_id = $arr['TELEMESSAGE_CONTENT']['RESPONSE']['MESSAGE_ID'];
-        $msg_key = $arr['TELEMESSAGE_CONTENT']['RESPONSE']['MESSAGE_KEY'];
-        $msg_status = $arr['TELEMESSAGE_CONTENT']['RESPONSE']['RESPONSE_STATUS'];
-        $msg_status_des = $arr['TELEMESSAGE_CONTENT']['RESPONSE']['RESPONSE_STATUS_DESC'];
+        $message = new DhiraaguSmsMessage($message, $mobiles, $arr);
 
-        if ($msg_status != '100') {
-            throw DhiraaguSmsException::messageFailed($msg_status, $msg_status_des);
+        if ($message->response_status != '100') {
+            throw DhiraaguSmsException::messageFailed($message->response_status, $message->response_status_desc);
         }
 
-        $ret = [
-            'message_id'        => $msg_id,
-            'message_key'       => $msg_key,
-            'message_status'    => $msg_status,
-            'status_desc'       => $msg_status_des,
-            'message'           => $message,
-            'numbers'           => $mobiles,
-            'message_sent_at'   => date('Y-m-d h:i:sa'),
-        ];
-
-        return $ret;
+        return $message;
     }
 
     /**
@@ -149,7 +136,7 @@ class DhiraaguSms
      *
      * @param string $msg_id
      * @param string $msg_key
-     * @return array
+     * @return DhiraaguSmsDelivery
      * @throws DhiraaguDeliveryException
      */
     public function delivery($msg_id, $msg_key)
@@ -173,28 +160,13 @@ class DhiraaguSms
         libxml_clear_errors();
         libxml_use_internal_errors(false);
 
-        $resp_status = $arr['TELEMESSAGE_CONTENT']['RESPONSE']['RESPONSE_STATUS'];
-        $resp_status_des = $arr['TELEMESSAGE_CONTENT']['RESPONSE']['RESPONSE_STATUS_DESC'];
+        $delivery = new DhiraaguSmsDelivery($arr);
 
-        if ($resp_status != '100') {
-            throw DhiraaguDeliveryException::messageFailed($resp_status, $resp_status_des);
+        if ($delivery->response_status && $delivery->response_status != '100') {
+            throw DhiraaguDeliveryException::messageFailed($delivery->response_status, $delivery->response_status_desc);
         }
 
-        $status_id = $arr['TELEMESSAGE_CONTENT']['MESSAGE_STATUS']['STATUS_ID'];
-        $status = $arr['TELEMESSAGE_CONTENT']['MESSAGE_STATUS']['RECIPIENT_STATUS']['DEVICE']['STATUS'];
-        $delivered_date = $arr['TELEMESSAGE_CONTENT']['MESSAGE_STATUS']['RECIPIENT_STATUS']['DEVICE']['STATUS_DATE'];
-        $number = $arr['TELEMESSAGE_CONTENT']['MESSAGE_STATUS']['RECIPIENT_STATUS']['DEVICE']['VALUE'];
-        $delivery_status_desc = $arr['TELEMESSAGE_CONTENT']['MESSAGE_STATUS']['RECIPIENT_STATUS']['DEVICE']['DESCRIPTION'];
-
-        $ret = [
-            'status_id' => $status_id,
-            'status' => $status,
-            'status_desc' => $delivery_status_desc,
-            'number' => $number,
-            'delivered_at' => $delivered_date
-        ];
-
-        return $ret;
+        return $delivery;
     }
 
     /**
