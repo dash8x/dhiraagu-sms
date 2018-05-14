@@ -20,7 +20,7 @@ composer require dash8x/dhiraagu-sms
 $username = "XXXXXXX"; // The username that you received from Dhiraagu (usually same as your SMS sender name)
 $password = "YYYYYY"; // Your Dhiraagu Bulk SMS Gateway password
 
-$client = new Dash8x\DhiraaguSms($username, $password);
+$client = new \Dash8x\DhiraaguSms\DhiraaguSms($username, $password);
 $message = $client->send(
   '+9607777777', // Text this number, use an array to send to multiple numbers
   'Hello World!' // Your message
@@ -39,7 +39,7 @@ To check the delivery status of an SMS, first you will need to obtain the **`mes
 $username = "XXXXXXX"; // The username that you received from Dhiraagu (usually same as your SMS sender name)
 $password = "YYYYYY"; // Your Dhiraagu Bulk SMS Gateway password
 
-$client = new Dash8x\DhiraaguSms($username, $password);
+$client = new \Dash8x\DhiraaguSms\DhiraaguSms($username, $password);
 $message = $client->send(
   '+9607777777', // Text this number, use an array to send to multiple numbers
   'Hello World!' // Your message
