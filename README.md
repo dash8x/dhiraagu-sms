@@ -7,7 +7,7 @@ You can install **dhiraagu-sms** via composer or by downloading the source.
 **Via Composer:**
 
 ```
-composer install dash8x/dhiraagu-sms
+composer require dash8x/dhiraagu-sms
 ```
 
 ## Quickstart
