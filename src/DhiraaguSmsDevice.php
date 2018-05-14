@@ -42,10 +42,16 @@ class DhiraaguSmsDevice
     public function __construct($response = [])
     {
         $this->type = $response['TYPE'] ?? null;
-        $this->number = $response['VALUE'] ?? null;
         $this->status = $response['STATUS'] ?? null;
         $this->status_desc = $response['DESCRIPTION'] ?? null;
         $this->status_date = $response['STATUS_DATE'] ?? null;
+
+        $number = $response['VALUE'] ?? null;
+        if ($number) {
+            $number = preg_replace('/[^0-9]/', '', $number);
+        }
+
+        $this->number = $number;
     }
 
 }

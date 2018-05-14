@@ -38,6 +38,7 @@ class DhiraaguSmsDelivery extends DhiraaguSmsResponse
         parent::__construct($response);
 
         $this->message_id = $response['TELEMESSAGE_CONTENT']['MESSAGE_STATUS']['MESSAGE_ID'] ?? null;
+        $this->message_status_id = $response['TELEMESSAGE_CONTENT']['MESSAGE_STATUS']['STATUS_ID'] ?? null;
         $this->message_status_desc = $response['TELEMESSAGE_CONTENT']['MESSAGE_STATUS']['STATUS_DESCRIPTION'] ?? null;
 
         $recipients = $response['TELEMESSAGE_CONTENT']['MESSAGE_STATUS']['RECIPIENT_STATUS'] ?? [];

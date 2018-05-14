@@ -162,7 +162,7 @@ class DhiraaguSms
 
         $delivery = new DhiraaguSmsDelivery($arr);
 
-        if ($delivery->response_status && $delivery->response_status != '100') {
+        if (empty($delivery->message_status_id)) {
             throw DhiraaguDeliveryException::messageFailed($delivery->response_status, $delivery->response_status_desc);
         }
 
