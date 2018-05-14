@@ -14,7 +14,7 @@ composer install dash8x/dhiraagu-sms
 
 ### Send an SMS
 
-```
+```php
 // Send an SMS using Dhiraagu Bulk SMS Gateway and PHP
 <?php
 $username = "XXXXXXX"; // The username that you received from Dhiraagu (usually same as your SMS sender name)
@@ -33,7 +33,7 @@ print $message->message_id;
 
 To check the delivery status of an SMS, first you will need to obtain the **`message_key`** and **`message_id`** when you send the SMS.
 
-```
+```php
 // Check the delivery status of an SMS using Dhiraagu Bulk SMS Gateway and PHP
 <?php
 $username = "XXXXXXX"; // The username that you received from Dhiraagu (usually same as your SMS sender name)
