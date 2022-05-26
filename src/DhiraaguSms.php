@@ -12,7 +12,7 @@ class DhiraaguSms
      * Default API url
      * @var string
      */
-    const DEFAULT_API_URL = 'https://bulkmessage.dhiraagu.com.mv/partners/xmlMessage.jsp';
+    const DEFAULT_API_URL = 'https://bulksms.dhiraagu.com.mv/partners/xmlMessage.jsp';
 
     /**
      * The bulk sms username
@@ -54,6 +54,17 @@ class DhiraaguSms
     }
 
     /**
+     * Escape xml content
+     *     e
+     * @param string $text
+     * @return string
+     */
+    protected static function escapeXML($text)
+    {
+        return htmlspecialchars($text, ENT_XML1, 'UTF-8');
+    }
+
+    /**
      * Loads the xml file, substitutes params
      *
      * @param string $file
@@ -92,20 +103,22 @@ class DhiraaguSms
     public function send($mobiles, $message)
     {
         // build the numbers xml
-        if(! is_array($mobiles)) {
+        if (! is_array($mobiles)) {
             $mobiles = [$mobiles];
         }
 
         $numbers_xml = '';
         foreach ($mobiles as $number) {
+            $number = static::escapeXML($number);
+
             $numbers_xml .= static::renderXML('_number', compact('number'));
         }
 
         $data = [
-            'username' => $this->username,
-            'password' => $this->password,
+            'username' => static::escapeXML($this->username),
+            'password' => static::escapeXML($this->password),
             'numbers' => $numbers_xml,
-            'message' => $message
+            'message' => static::escapeXML($message),
         ];
 
         $xml = static::renderXML('send', $data);
@@ -142,8 +155,8 @@ class DhiraaguSms
     public function delivery($msg_id, $msg_key)
     {
         $data = [
-            'message_id' => $msg_id,
-            'message_key' => $msg_key
+            'message_id' => static::escapeXML($msg_id),
+            'message_key' => static::escapeXML($msg_key)
         ];
 
         $xml = static::renderXML('delivery', $data);

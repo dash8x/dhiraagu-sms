@@ -29,8 +29,9 @@ composer require dash8x/dhiraagu-sms
 <?php
 $username = "XXXXXXX"; // The username that you received from Dhiraagu (usually same as your SMS sender name)
 $password = "YYYYYY"; // Your Dhiraagu Bulk SMS Gateway password
+$url = 'https://bulksms.dhiraagu.com.mv/partners/xmlMessage.jsp'; // The Dhiraagu API endpoint. Leave blank to use the default URL. 
 
-$client = new \Dash8x\DhiraaguSms\DhiraaguSms($username, $password);
+$client = new \Dash8x\DhiraaguSms\DhiraaguSms($username, $password, $url);
 $message = $client->send(
   '+9607777777', // Text this number, use an array to send to multiple numbers
   'Hello World!' // Your message
